@@ -1,0 +1,14 @@
+<resources>
+<style name="greenTheme" parent="android:Theme.Material.Light">
+    <item name="customTextColor">#FF00FF</item>
+    <item name="customTextSize">20sp</item>
+    <item name="customTextWidth">100dp</item>
+    <item name="customBackground">@drawable/green_ripple_effect</item>
+</style>
+<style name="redTheme" parent="android:Theme.Material.Light">
+    <item name="customTextColor">#FFFF00</item>
+    <item name="customTextSize">40sp</item>
+    <item name="customTextWidth">200dp</item>
+    <item name="customBackground">@drawable/red_ripple_effect</item>
+</style>
+</resources>

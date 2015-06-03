@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--提供一层抽象-->
+<resources>
+    <attr name="customTextSize" format="dimension"/>
+    <attr name="customTextColor" format="color"/>
+    <attr name="customTextWidth" format="dimension"/>
+    <attr name="customBackground" format="reference"/> <!-- ripple effect -->
+</resources>

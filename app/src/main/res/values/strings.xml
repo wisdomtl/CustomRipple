@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RippleDemo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="lvRippleItems">
+        <item>item1</item>
+        <item>item2</item>
+        <item>item3</item>
+        <item>item4</item>
+    </string-array>
+
+</resources>

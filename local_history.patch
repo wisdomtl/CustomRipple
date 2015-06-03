@@ -1,0 +1,156 @@
+Index: app/src/main/java/com/example/tangliang/myapplication/CustomRipple.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/tangliang/myapplication/CustomRipple.java	(revision )
++++ app/src/main/java/com/example/tangliang/myapplication/CustomRipple.java	(revision )
+@@ -1,17 +1,15 @@
+ package com.example.tangliang.myapplication;
+ 
+ import android.animation.Animator;
++import android.animation.AnimatorSet;
+ import android.animation.ObjectAnimator;
+ import android.animation.TimeInterpolator;
+ import android.graphics.Canvas;
+-import android.graphics.Color;
+ import android.graphics.Paint;
+ import android.graphics.Point;
+ import android.graphics.Rect;
+ import android.view.MotionEvent;
+ import android.view.View;
+-import android.view.animation.AccelerateDecelerateInterpolator;
+-import android.view.animation.LinearInterpolator;
+ 
+ /**
+  * 自定义Ripple
+@@ -26,10 +24,10 @@
+     private Point center;
+     /** 波纹画笔 */
+     private Paint paint;
+-    /** 快速波纹半径动画 */
+-    private ObjectAnimator fastRadiusAnimator;
++    /** 快速波纹半径动画 = 半径动画+透明度变化 */
++    private AnimatorSet fastRippleAnimator;
+     /** 慢速波纹半径动画 */
+-    private ObjectAnimator slowRadiusAnimator;
++    private ObjectAnimator slowRippleAnimator;
+     /** 波纹状态监听器 */
+     private IRippleStateListener stateListener;
+     /** 主题管理器 */
+@@ -38,14 +36,17 @@
+     private Style style = themeManager.getRippleStyle();
+     /** 波纹颜色 */
+     private int color = themeManager.getRippleColor();
++    /** 波纹透明度 */
++    private int alpha = themeManager.getRippleAlpha();
+     /** 快速波纹持续时间 */
+     private long fastDuration = themeManager.getFastRippleDuration();
+     /** 慢速波纹持续时间 */
+     private long slowDuration = themeManager.getSlowRippleDuration();
+-    /** 快速波纹加速器 */
++    /** 快速波纹半径加速器 */
+     private TimeInterpolator fastInterpolator = themeManager.getFastRippleRadiusInterpolator();
+-    /** 慢速波纹加速器 */
++    /** 慢速波纹半径加速器 */
+     private TimeInterpolator slowInterpolator = themeManager.getSlowRippleRadiusInterpolator();
++
+     /** 波纹类型 RECTANGLE:矩形波纹 CIRCLE:圆形波纹 */
+     public enum Style
+     {
+@@ -93,12 +94,27 @@
+                                  TimeInterpolator interpolator,
+                                  Animator.AnimatorListener animatorListener)
+     {
+-        fastRadiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRippleRadius);
+-        fastRadiusAnimator.setDuration(rippleDuration);
+-        fastRadiusAnimator.setInterpolator(interpolator);
+-        fastRadiusAnimator.addListener(animatorListener);
+-        fastRadiusAnimator.start();
++        //若慢速波纹未结束 则启动快速波纹动画
++        if (radius < maxRippleRadius)
++        {
++            ObjectAnimator fastRadiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRippleRadius);
++            ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
++            fastRippleAnimator = new AnimatorSet();
++            fastRippleAnimator.playTogether(fastRadiusAnimator, alphaAnimator);
++            fastRippleAnimator.setDuration(rippleDuration);
++            fastRippleAnimator.setInterpolator(interpolator);
++            fastRippleAnimator.addListener(animatorListener);
++            fastRippleAnimator.start();
+-    }
++        }
++        //若慢速波纹结束 则启动透明度动画
++        else
++        {
++            ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
++            alphaAnimator.setDuration(rippleDuration);
++            alphaAnimator.setInterpolator(interpolator);
++            alphaAnimator.start();
++        }
++    }
+ 
+     /**
+      * 开启慢速波纹
+@@ -111,10 +127,10 @@
+                                  float maxRippleRadius,
+                                  TimeInterpolator interpolator)
+     {
+-        slowRadiusAnimator = ObjectAnimator.ofFloat(this, "radius", 0, maxRippleRadius);
+-        slowRadiusAnimator.setDuration(rippleDuration);
+-        slowRadiusAnimator.setInterpolator(interpolator);
+-        slowRadiusAnimator.start();
++        slowRippleAnimator = ObjectAnimator.ofFloat(this, "radius", 0, maxRippleRadius);
++        slowRippleAnimator.setDuration(rippleDuration);
++        slowRippleAnimator.setInterpolator(interpolator);
++        slowRippleAnimator.start();
+     }
+ 
+     /**
+@@ -123,15 +139,15 @@
+     private void cancelPreRipple()
+     {
+         //1.取消慢速波纹
+-        if (slowRadiusAnimator != null)
++        if (slowRippleAnimator != null)
+         {
+-            slowRadiusAnimator.cancel();
++            slowRippleAnimator.cancel();
+         }
+         //2.取消快速波纹
+-        if (fastRadiusAnimator != null)
++        if (fastRippleAnimator != null)
+         {
+-            fastRadiusAnimator.cancel();
+-            fastRadiusAnimator.removeAllListeners();
++            fastRippleAnimator.cancel();
++            fastRippleAnimator.removeAllListeners();
+         }
+     }
+ 
+@@ -148,6 +164,17 @@
+     }
+ 
+     /**
++     * Animator会自动调用这个方法来改变波纹透明度
++     *
++     * @param alpha 波纹透明度
++     */
++    public void setAlpha(int alpha)
++    {
++        paint.setAlpha(alpha);
++        host.invalidate();
++    }
++
++    /**
+      * 绘制波纹
+      *
+      * @param canvas 画笔
+@@ -195,6 +222,7 @@
+             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+             paint.setStyle(Paint.Style.FILL);
+             paint.setColor(color);
++            paint.setAlpha(alpha);
+         }
+     }
+ 
