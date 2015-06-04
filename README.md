@@ -8,11 +8,14 @@
 2.用法
 
 项目中CustomRipple.java实现了
+
 (1)绘制波纹 
+
 (2)波纹生命周期控制 
+
 (3)波纹效果微调(颜色 速度 形状 加速效果)  
 
-项目中CustomRippleButton.java展现了如何使用CustomRipple
+CustomRippleButton.java展现了如何使用CustomRipple
 
-项目中ThemeManager.java提供了统一修改波纹效果的接口
+ThemeManager.java提供了统一修改波纹效果的接口
 
