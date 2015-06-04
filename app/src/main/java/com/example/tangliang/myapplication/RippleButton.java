@@ -9,11 +9,11 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
- * Created by qq on 2015/5/24.
+ * è‡ªå®šä¹‰æ³¢çº¹æŒ‰é’®(é€šè¿‡RippleDrawableè‡ªå®šä¹‰)
  */
 public class RippleButton extends Button {
 
-    /**¿Ø¼þ²¨ÎÆ*/
+    /**æŽ§ä»¶æ³¢çº¹*/
     private RippleDrawable rippleDrawable  ;
 
     public RippleButton(Context context, AttributeSet attrs) {
@@ -22,7 +22,7 @@ public class RippleButton extends Button {
     }
 
     /**
-     * ¶¨ÖÆ¿Ø¼þ²¨ÎÆ
+     * å®šåˆ¶æŽ§ä»¶æ³¢çº¹
      */
     private void customRipple() {
         int rippleColor = ThemeManager.getInstance().getRippleColor() ;

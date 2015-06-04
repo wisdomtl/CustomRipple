@@ -2,12 +2,8 @@ package com.example.tangliang.myapplication;
 
 import android.animation.TimeInterpolator;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-
-import java.sql.Time;
 
 /**
  * 主题管理器
@@ -18,17 +14,17 @@ public class ThemeManager
     /** 当前主题 */
     private int theme;
     /** 快波纹持续时间 默认400ms */
-    private long fastRippleDuration = 300;
+    private long fastRippleDuration = 2300;
     /** 慢波纹持续时间 默认4000ms */
-    private long slowRippleDuration = 3000;
+    private long slowRippleDuration = 2800;
     /** 波纹透明度 默认为27 */
-    private int rippleAlpha = 27;
+    private int rippleAlpha = 91;
     /** 当前RippleEffect颜色 默认为亮灰色 */
-    private int rippleColor = Color.parseColor("#1BFF0000");
+    private int rippleColor = Color.parseColor("#5BFF0000");
     /** 波纹类型 */
     private CustomRipple.Style rippleStyle = CustomRipple.Style.CIRCLE;
     /** 快波纹半径加速器 默认为AccelerateDecelerateInterpolator */
-    private TimeInterpolator fastRippleRadiusInterpolator = new AccelerateDecelerateInterpolator();
+    private TimeInterpolator fastRippleRadiusInterpolator = new SmoothInterpolator();
     /** 慢波纹半径加速器 默认为LinearInterpolator */
     private TimeInterpolator slowRippleRadiusInterpolator = new LinearInterpolator();
 
@@ -43,7 +39,6 @@ public class ThemeManager
 
     private static class ThemeManagerHolder
     {
-
         public static final ThemeManager INSTANCE = new ThemeManager();
     }
 
@@ -202,5 +197,17 @@ public class ThemeManager
     public void onThemeChanged(Activity activity)
     {
         activity.setTheme(theme);
+    }
+
+
+    /**
+     * 平滑波纹半径加速器
+     */
+    private static final class SmoothInterpolator implements TimeInterpolator
+    {
+        @Override
+        public float getInterpolation(float input) {
+            return 1 - (float) Math.pow(400, -input * 1.4);
+        }
     }
 }

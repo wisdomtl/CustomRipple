@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 /**
  * 自定义Ripple
@@ -25,7 +26,7 @@ public class CustomRipple
     private Point center;
     /** 波纹画笔 */
     private Paint paint;
-    /** 快速波纹半径动画 = 半径动画+透明度变化 */
+    /** 快速波纹半径动画 = 半径动画+透明度动画 */
     private AnimatorSet fastRippleAnimator;
     /** 慢速波纹半径动画 */
     private ObjectAnimator slowRippleAnimator;
@@ -58,7 +59,6 @@ public class CustomRipple
     {
         this.host = host;
         initRipplePaint();
-//        host.setLayerType(View.LAYER_TYPE_HARDWARE , null);
     }
 
 
@@ -74,10 +74,11 @@ public class CustomRipple
         switch (action)
         {
             case MotionEvent.ACTION_DOWN:
+                cancelPreRipple();
                 startSlowRipple(slowDuration, maxRippleRadius, slowInterpolator);
                 break;
             case MotionEvent.ACTION_UP:
-                cancelPreRipple();
+                cancelSlowRipple();
                 startFastRipple(fastDuration, maxRippleRadius, fastInterpolator, rippleListener);
                 break;
         }
@@ -113,7 +114,7 @@ public class CustomRipple
         {
             ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
             alphaAnimator.setDuration(rippleDuration);
-            alphaAnimator.setInterpolator(interpolator);
+            alphaAnimator.setInterpolator(new LinearInterpolator());
             alphaAnimator.start();
         }
     }
@@ -136,20 +137,27 @@ public class CustomRipple
     }
 
     /**
-     * 取消上次波纹(当上次波纹未完成且新的波纹被触发时需要取消上次波纹)
+     * 取消慢波纹
      */
-    private void cancelPreRipple()
+    private void cancelSlowRipple()
     {
-        //1.取消慢速波纹
+        //1.取消慢波纹动画
         if (slowRippleAnimator != null)
         {
             slowRippleAnimator.cancel();
+            slowRippleAnimator = null ;
         }
-        //2.取消快速波纹
+    }
+
+    /**
+     * 取消之前波纹 youhua:做成可接受多重波纹
+     */
+    private void cancelPreRipple()
+    {
         if (fastRippleAnimator != null)
         {
             fastRippleAnimator.cancel();
-            fastRippleAnimator.removeAllListeners();
+            fastRippleAnimator = null ;
         }
     }
 
@@ -162,9 +170,26 @@ public class CustomRipple
     public void setRadius(float radius)
     {
         this.radius = radius;
-        host.invalidate();
+        //波纹脏区域:以减少每次绘制量
+        Rect dirtyBounds = getDirtyBounds();
+        host.invalidate(dirtyBounds);
     }
 
+    /**
+     * 获得波纹脏区域(脏区域为圆外包矩形)
+     *
+     * @return 波纹脏区域
+     */
+    private Rect getDirtyBounds()
+    {
+        int left = center.x - (int) radius;
+        int top = center.y - (int) radius;
+        int right = center.x + (int) radius;
+        int bottom = center.y + (int) radius;
+        return new Rect(left, top, right, bottom);
+    }
+    
+    
     /**
      * Animator会自动调用这个方法来改变波纹透明度
      *
@@ -182,7 +207,6 @@ public class CustomRipple
      */
     protected void draw(Canvas canvas)
     {
-        Log.i("ttangliang", "isCanvasAcc = " + canvas.isHardwareAccelerated());
         if (center == null)
         {
             return;
@@ -290,33 +314,40 @@ public class CustomRipple
         @Override
         public void onAnimationStart(Animator animation)
         {
-
         }
 
         @Override
         public void onAnimationEnd(Animator animation)
         {
-            setRadius(0);
-            paint.setAlpha(themeManager.getRippleAlpha());
-            host.setPressed(false);
+            restore();
             if (stateListener != null)
             {
                 stateListener.onRippleEnd();
             }
+
         }
 
         @Override
         public void onAnimationCancel(Animator animation)
         {
-
+            restore();
         }
 
         @Override
         public void onAnimationRepeat(Animator animation)
         {
-
         }
     };
+
+    /**
+     * 将波纹状态还原成动画开始之前
+     */
+    private void restore()
+    {
+        setRadius(0);
+        setAlpha(themeManager.getRippleAlpha());
+        host.setPressed(false);
+    }
 
     /**
      * 波纹状态监听器

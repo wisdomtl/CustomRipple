@@ -1,5 +1,6 @@
 package com.example.tangliang.myapplication;
 
+import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -48,6 +49,7 @@ public class MainActivity extends Activity
     {
         ThemeManager.getInstance().setTheme(this, R.style.greenTheme);
     }
+
 
 
 }

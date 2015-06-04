@@ -14,7 +14,7 @@ import static android.util.Log.v;
 import static android.util.Log.w;
 
 /**
- * Created by Tangliang on 2015/5/22.
+ * 自定义波纹按钮(通过CustomRipple自定义)
  */
 public class CustomRippleButton extends Button
 {
