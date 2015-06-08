@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -16,7 +15,7 @@ import android.view.animation.LinearInterpolator;
 import static android.util.Log.i;
 
 /**
- * 自定义Ripple
+ * 单个波纹
  */
 public class CustomRipple
 {
@@ -32,8 +31,10 @@ public class CustomRipple
     private Paint paint;
     /** 快速波纹半径动画 = 半径动画+透明度动画 */
     private AnimatorSet fastRippleAnimator;
-    /** 慢速波纹半径动画 */
-    private ObjectAnimator slowRippleAnimator;
+    /** 半径动画 */
+    private ObjectAnimator radiusAnimator;
+    /** 透明度动画 */
+    private ObjectAnimator alphaAnimator;
     /** 波纹状态监听器 */
     private IRippleStateListener stateListener;
     /** 主题管理器 */
@@ -63,7 +64,6 @@ public class CustomRipple
     {
         this.host = host;
         initRipplePaint();
-        i("ttangliang", "CustomRipple()");
     }
 
 
@@ -104,10 +104,11 @@ public class CustomRipple
         //若慢速波纹未结束 则启动快速波纹动画
         if (radius < maxRippleRadius)
         {
-            ObjectAnimator fastRadiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRippleRadius);
-            ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
+//            ObjectAnimator fastRadiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRippleRadius);
+            radiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRippleRadius);
+            alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
             fastRippleAnimator = new AnimatorSet();
-            fastRippleAnimator.playTogether(fastRadiusAnimator, alphaAnimator);
+            fastRippleAnimator.playTogether(radiusAnimator, alphaAnimator);
             fastRippleAnimator.setDuration(rippleDuration);
             fastRippleAnimator.setInterpolator(interpolator);
             fastRippleAnimator.addListener(animatorListener);
@@ -134,10 +135,11 @@ public class CustomRipple
                                  float maxRippleRadius,
                                  TimeInterpolator interpolator)
     {
-        slowRippleAnimator = ObjectAnimator.ofFloat(this, "radius", 0, maxRippleRadius);
-        slowRippleAnimator.setDuration(rippleDuration);
-        slowRippleAnimator.setInterpolator(interpolator);
-        slowRippleAnimator.start();
+        radiusAnimator = ObjectAnimator.ofFloat(this, "radius", 0, maxRippleRadius);
+        radiusAnimator.setAutoCancel(true);
+        radiusAnimator.setDuration(rippleDuration);
+        radiusAnimator.setInterpolator(interpolator);
+        radiusAnimator.start();
     }
 
     /**
@@ -146,10 +148,10 @@ public class CustomRipple
     private void cancelSlowRipple()
     {
         //1.取消慢波纹动画
-        if (slowRippleAnimator != null)
+        if (radiusAnimator != null)
         {
-            slowRippleAnimator.cancel();
-            slowRippleAnimator = null;
+            radiusAnimator.cancel();
+            radiusAnimator = null;
         }
     }
 
@@ -172,9 +174,10 @@ public class CustomRipple
      */
     /**
      * 设置波纹宿主控件区域
-     * @param left 控件左端
-     * @param top 控件上端
-     * @param right 控件右端
+     *
+     * @param left   控件左端
+     * @param top    控件上端
+     * @param right  控件右端
      * @param bottom 控件下段
      */
     public void setHostRect(int left,
@@ -182,7 +185,7 @@ public class CustomRipple
                             int right,
                             int bottom)
     {
-        this.hostRect = new Rect(left , top , right ,bottom);
+        this.hostRect = new Rect(left, top, right, bottom);
     }
 
 
@@ -263,20 +266,6 @@ public class CustomRipple
     }
 
     /**
-     * 初始化波纹画笔
-     */
-    private void initRipplePaint()
-    {
-        if (paint == null)
-        {
-            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(color);
-            paint.setAlpha(alpha);
-        }
-    }
-
-    /**
      * 在区域内获得离点击位置最远的边界点
      *
      * @param bounds     区域
@@ -327,6 +316,20 @@ public class CustomRipple
 //        point = boundsPoints[LeftOrRight][topOrBottom] ;
 
         return point;
+    }
+
+    /**
+     * 初始化波纹画笔
+     */
+    private void initRipplePaint()
+    {
+        if (paint == null)
+        {
+            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(color);
+            paint.setAlpha(alpha);
+        }
     }
 
 

@@ -19,7 +19,7 @@ import static android.util.Log.w;
  */
 public class CustomRippleButton extends Button
 {
-    private CustomRipple ripple = new CustomRipple(this);
+    private Ripples ripples = new Ripples(this);
 
     public CustomRippleButton(Context context,
                               AttributeSet attrs)
@@ -30,7 +30,7 @@ public class CustomRippleButton extends Button
     @Override
     public boolean dispatchTouchEvent(MotionEvent event)
     {
-        ripple.onTouch(event);
+        ripples.onTouch(event);
         return super.dispatchTouchEvent(event);
     }
 
@@ -42,13 +42,46 @@ public class CustomRippleButton extends Button
                             int bottom)
     {
         super.onLayout(changed, left, top, right, bottom);
-        ripple.setHostRect(left, top, right, bottom);
+        ripples.setHostRect(left, top, right, bottom);
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        ripple.draw(canvas);
+        ripples.draw(canvas);
     }
+
+//    private CustomRipple ripple = new CustomRipple(this);
+//
+//    public CustomRippleButton(Context context,
+//                              AttributeSet attrs)
+//    {
+//        super(context, attrs);
+//    }
+//
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent event)
+//    {
+//        ripple.onTouch(event);
+//        return super.dispatchTouchEvent(event);
+//    }
+//
+//    @Override
+//    protected void onLayout(boolean changed,
+//                            int left,
+//                            int top,
+//                            int right,
+//                            int bottom)
+//    {
+//        super.onLayout(changed, left, top, right, bottom);
+//        ripple.setHostRect(left, top, right, bottom);
+//    }
+//
+//    @Override
+//    protected void onDraw(Canvas canvas)
+//    {
+//        super.onDraw(canvas);
+//        ripple.draw(canvas);
+//    }
 }
