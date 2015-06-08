@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Debug;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
 
@@ -31,6 +32,17 @@ public class CustomRippleButton extends Button
     {
         ripple.onTouch(event);
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    protected void onLayout(boolean changed,
+                            int left,
+                            int top,
+                            int right,
+                            int bottom)
+    {
+        super.onLayout(changed, left, top, right, bottom);
+        ripple.setHostRect(left, top, right, bottom);
     }
 
     @Override

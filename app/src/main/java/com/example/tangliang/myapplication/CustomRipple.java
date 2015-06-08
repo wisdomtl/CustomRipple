@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import static android.util.Log.i;
+
 /**
  * 自定义Ripple
  */
@@ -20,6 +22,8 @@ public class CustomRipple
 {
     /** 波纹宿主控件 */
     private View host;
+    /** 波纹宿主控件区域 */
+    private Rect hostRect;
     /** 波纹半径 */
     private float radius;
     /** 波纹中心坐标 */
@@ -59,6 +63,7 @@ public class CustomRipple
     {
         this.host = host;
         initRipplePaint();
+        i("ttangliang", "CustomRipple()");
     }
 
 
@@ -67,8 +72,7 @@ public class CustomRipple
         int x = (int) event.getX();//dig into:up和down事件的坐标会不会不一样
         int y = (int) event.getY();
         center = new Point(x, y);
-        final Rect rect = new Rect(host.getLeft(), host.getTop(), host.getRight(), host.getBottom());//youhua:是否可以提前计算这些 提高点击函数效率
-        final float maxRippleRadius = getMaxRippleRadius(rect, center);
+        final float maxRippleRadius = getMaxRippleRadius(hostRect, center);
 
         int action = event.getAction();
         switch (action)
@@ -145,7 +149,7 @@ public class CustomRipple
         if (slowRippleAnimator != null)
         {
             slowRippleAnimator.cancel();
-            slowRippleAnimator = null ;
+            slowRippleAnimator = null;
         }
     }
 
@@ -157,8 +161,28 @@ public class CustomRipple
         if (fastRippleAnimator != null)
         {
             fastRippleAnimator.cancel();
-            fastRippleAnimator = null ;
+            fastRippleAnimator = null;
         }
+    }
+
+    /**
+     * 设置波纹宿主控件区域
+     *
+     * @param hostRect 波纹宿主控件区域
+     */
+    /**
+     * 设置波纹宿主控件区域
+     * @param left 控件左端
+     * @param top 控件上端
+     * @param right 控件右端
+     * @param bottom 控件下段
+     */
+    public void setHostRect(int left,
+                            int top,
+                            int right,
+                            int bottom)
+    {
+        this.hostRect = new Rect(left , top , right ,bottom);
     }
 
 
