@@ -7,23 +7,23 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * ¶àÖØ²¨ÎÆ
+ * å¤šé‡æ³¢çº¹
  */
 public class TLRipples
 {
-    /** ¶àÖØ²¨ÎÆ¼¯ºÏ */
+    /** å¤šé‡æ³¢çº¹é›†åˆ */
     private TLRipple[] ripples;
-    /** ¶àÖØ²¨ÎÆ×î´ó¸öÊı */
+    /** å¤šé‡æ³¢çº¹æœ€å¤§ä¸ªæ•° */
     private static final int MAX_RIPPLES_NUM = 10;
-    /** µ±Ç°¶àÖØ²¨ÎÆ¸öÊı */
+    /** å½“å‰å¤šé‡æ³¢çº¹ä¸ªæ•° */
     private int ripplesNum = 0;
-    /** ĞÂ²úÉúµ¥¸ö²¨ÎÆ */
+    /** æ–°äº§ç”Ÿå•ä¸ªæ³¢çº¹ */
     private TLRipple curRipple;
-    /** ¶àÖØ²¨ÎÆËŞÖ÷ */
+    /** å¤šé‡æ³¢çº¹å®¿ä¸» */
     private View host;
-    /** ¶àÖØ²¨ÎÆËŞÖ÷ÇøÓò */
+    /** å¤šé‡æ³¢çº¹å®¿ä¸»åŒºåŸŸ */
     private Rect hostRect;
-    /**¶àÖØ²¨ÎÆ¼àÌıÆ÷*/
+    /**å¤šé‡æ³¢çº¹ç›‘å¬å™¨*/
     private IRipplesListener iRipplesListener ;
 
     public TLRipples(View host)
@@ -32,13 +32,13 @@ public class TLRipples
     }
 
     /**
-     * ´¥ÃşÊÂ¼ş´¦Àí
+     * è§¦æ‘¸äº‹ä»¶å¤„ç†
      *
-     * @param event ´¥ÃşÊÂ¼ş
+     * @param event è§¦æ‘¸äº‹ä»¶
      */
     public void onTouch(MotionEvent event)
     {
-        int x = (int) event.getX();//dig into:upºÍdownÊÂ¼şµÄ×ø±ê»á²»»á²»Ò»Ñù
+        int x = (int) event.getX();//dig into:upå’Œdownäº‹ä»¶çš„åæ ‡ä¼šä¸ä¼šä¸ä¸€æ ·
         int y = (int) event.getY();
         Point center = new Point(x, y);
         final float maxRippleRadius = getMaxRippleRadius(hostRect, center);
@@ -56,9 +56,9 @@ public class TLRipples
     }
 
     /**
-     * »æÖÆ¶àÖØ²¨ÎÆ
+     * ç»˜åˆ¶å¤šé‡æ³¢çº¹
      *
-     * @param canvas »­²¼
+     * @param canvas ç”»å¸ƒ
      */
     public void draw(Canvas canvas)
     {
@@ -66,7 +66,7 @@ public class TLRipples
 //        final TLRipple[] _ripples = ripples ;
 //        final TLRipple _curRipple = curRipple ;
 //
-//        //1.»æÖÆ¿ì²¨ÎÆ
+//        //1.ç»˜åˆ¶å¿«æ³¢çº¹
 //        if (_ripplesNum > 0)
 //        {
 //            for (int i = 0; i < _ripplesNum; i++)
@@ -75,13 +75,13 @@ public class TLRipples
 //            }
 //        }
 //
-//        //2.»æÖÆÂı²¨ÎÆ
+//        //2.ç»˜åˆ¶æ…¢æ³¢çº¹
 //        if (_curRipple != null)
 //        {
 //            _curRipple.draw(canvas);
 //        }
 
-         //1.»æÖÆ¿ì²¨ÎÆ
+         //1.ç»˜åˆ¶å¿«æ³¢çº¹
         if (ripplesNum > 0)
         {
             for (int i = 0; i < ripplesNum; i++)
@@ -90,7 +90,7 @@ public class TLRipples
             }
         }
 
-        //2.»æÖÆÂı²¨ÎÆ
+        //2.ç»˜åˆ¶æ…¢æ³¢çº¹
         if (curRipple != null)
         {
             curRipple.draw(canvas);
@@ -99,12 +99,12 @@ public class TLRipples
 
 
     /**
-     * ÉèÖÃ²¨ÎÆËŞÖ÷¿Ø¼şÇøÓò
+     * è®¾ç½®æ³¢çº¹å®¿ä¸»æ§ä»¶åŒºåŸŸ
      *
-     * @param left   ¿Ø¼ş×ó¶Ë
-     * @param top    ¿Ø¼şÉÏ¶Ë
-     * @param right  ¿Ø¼şÓÒ¶Ë
-     * @param bottom ¿Ø¼şÏÂ¶Î
+     * @param left   æ§ä»¶å·¦ç«¯
+     * @param top    æ§ä»¶ä¸Šç«¯
+     * @param right  æ§ä»¶å³ç«¯
+     * @param bottom æ§ä»¶ä¸‹æ®µ
      */
     public void setHostRect(int left,
                             int top,
@@ -115,8 +115,8 @@ public class TLRipples
     }
 
     /**
-     * ÉèÖÃ¶àÖØ²¨ÎÆ¼àÌıÆ÷
-     * @param iRipplesListener ¶àÖØ²¨ÎÆ¼àÌıÆ÷
+     * è®¾ç½®å¤šé‡æ³¢çº¹ç›‘å¬å™¨
+     * @param iRipplesListener å¤šé‡æ³¢çº¹ç›‘å¬å™¨
      */
     public void setiRipplesListener(IRipplesListener iRipplesListener)
     {
@@ -124,14 +124,14 @@ public class TLRipples
     }
 
     /**
-     * ¿ªÆôÂıËÙ²¨ÎÆ
+     * å¼€å¯æ…¢é€Ÿæ³¢çº¹
      *
-     * @param maxRippleRadius ²¨ÎÆ×î´ó°ë¾¶
+     * @param maxRippleRadius æ³¢çº¹æœ€å¤§åŠå¾„
      */
     private void startSlowRipple(Point center,
                                  float maxRippleRadius)
     {
-        //µ±ÓÃ»§·è¿ñµã»÷ ²¨ÎÆÊıÁ¿³¬¹ıÉÏÏŞÊ± ²»ÔÚ»æÖÆ
+        //å½“ç”¨æˆ·ç–¯ç‹‚ç‚¹å‡» æ³¢çº¹æ•°é‡è¶…è¿‡ä¸Šé™æ—¶ ä¸åœ¨ç»˜åˆ¶
         if (ripplesNum >= MAX_RIPPLES_NUM)
         {
             return;
@@ -146,7 +146,7 @@ public class TLRipples
     }
 
     /**
-     * ¿ªÆô¿ìËÙ²¨ÎÆ
+     * å¼€å¯å¿«é€Ÿæ³¢çº¹
      */
     private void startFastRipple()
     {
@@ -156,20 +156,20 @@ public class TLRipples
             {
                 ripples = new TLRipple[MAX_RIPPLES_NUM];
             }
-            //°ÑÂı²¨ÎÆ¶¯»­¼ÇÂ¼ÔÚÁĞ±íÖĞ
+            //æŠŠæ…¢æ³¢çº¹åŠ¨ç”»è®°å½•åœ¨åˆ—è¡¨ä¸­
             ripples[ripplesNum++] = curRipple;
             curRipple.startFastRipple();
-            curRipple = null; //µ±Âı²¨ÎÆ±ä³É¿ì²¨ÎÆºó Âı²¨ÎÆ¾Í¸Ã±»Ïú»Ù ÒÔ±ãÔÙ´Îµã»÷Ê±ÖØĞÂ´´½¨
+            curRipple = null; //å½“æ…¢æ³¢çº¹å˜æˆå¿«æ³¢çº¹å æ…¢æ³¢çº¹è¦é”€æ¯ ä»¥ä¾¿å†æ¬¡ç‚¹å‡»æ—¶é‡æ–°åˆ›å»º
         }
     }
 
 
     /**
-     * »ñµÃ²¨ÎÆ×î´ó°ë¾¶(×î´ó°ë¾¶±ØĞëÈ«²¿¸²¸ÇËŞÖ÷¿Ø¼ş)
+     * è·å¾—æ³¢çº¹æœ€å¤§åŠå¾„(æœ€å¤§åŠå¾„å¿…é¡»å…¨éƒ¨è¦†ç›–å®¿ä¸»æ§ä»¶)
      *
-     * @param bounds     ËŞÖ÷¿Ø¼ş±ß½ç
-     * @param clickPoint µã»÷ºá×ø±ê
-     * @return ×î´ó°ë¾¶
+     * @param bounds     å®¿ä¸»æ§ä»¶è¾¹ç•Œ
+     * @param clickPoint ç‚¹å‡»æ¨ªåæ ‡
+     * @return æœ€å¤§åŠå¾„
      */
     private float getMaxRippleRadius(Rect bounds,
                                      Point clickPoint)
@@ -181,11 +181,11 @@ public class TLRipples
     }
 
     /**
-     * ÔÚÇøÓòÄÚ»ñµÃÀëµã»÷Î»ÖÃ×îÔ¶µÄ±ß½çµã
+     * åœ¨åŒºåŸŸå†…è·å¾—ç¦»ç‚¹å‡»ä½ç½®æœ€è¿œçš„è¾¹ç•Œç‚¹
      *
-     * @param bounds     ÇøÓò
-     * @param clickPoint µã»÷Î»ÖÃ
-     * @return ×îÔ¶±ß½çµã
+     * @param bounds     åŒºåŸŸ
+     * @param clickPoint ç‚¹å‡»ä½ç½®
+     * @return æœ€è¿œè¾¹ç•Œç‚¹
      */
     private Point getFarmostPoint(Rect bounds,
                                   Point clickPoint)
@@ -196,7 +196,7 @@ public class TLRipples
         float centerToRight = bounds.right - clickPoint.x;
         Point point = null;
 
-        //A.³£¹æÇ¶Ì×if-else
+        //A.å¸¸è§„åµŒå¥—if-else
         if (centerToLeft > centerToRight)
         {
             if (centerToTop > centerToBottom)
@@ -220,7 +220,7 @@ public class TLRipples
             }
         }
 
-//        //B.±íÇı¶¯·¨
+//        //B.è¡¨é©±åŠ¨æ³•
 //        Point[][] boundsPoints = new Point[2][2] ;
 //        boundsPoints[0][0] = new Point(bounds.left , bounds.top)  ;
 //        boundsPoints[0][1] = new Point(bounds.right , bounds.top) ;
@@ -234,9 +234,9 @@ public class TLRipples
     }
 
     /**
-     * É¾³ıµ¥¸ö²¨ÎÆ(µ±µ¥¸ö²¨ÎÆ¶¯»­½áÊø Ğè´Ó¶àÖØ²¨ÎÆ¼¯ºÏÖĞÉ¾³ı)
+     * åˆ é™¤å•ä¸ªæ³¢çº¹(å½“å•ä¸ªæ³¢çº¹åŠ¨ç”»ç»“æŸ éœ€ä»å¤šé‡æ³¢çº¹é›†åˆä¸­åˆ é™¤)
      *
-     * @param ripple µ¥¸ö²¨ÎÆ
+     * @param ripple å•ä¸ªæ³¢çº¹
      */
     private void removeRipple(TLRipple ripple)
     {
@@ -253,10 +253,10 @@ public class TLRipples
     }
 
     /**
-     * »ñµÃµ¥¸ö²¨ÎÆË÷Òı(±éÀú¶àÖØ²¨ÎÆ¼¯ºÏ)
+     * è·å¾—å•ä¸ªæ³¢çº¹ç´¢å¼•(éå†å¤šé‡æ³¢çº¹é›†åˆ)
      *
-     * @param ripple µ¥¸ö²¨ÎÆ
-     * @return µ¥¸ö²¨ÎÆË÷Òı
+     * @param ripple å•ä¸ªæ³¢çº¹
+     * @return å•ä¸ªæ³¢çº¹ç´¢å¼•
      */
     private int getRippleIndex(TLRipple ripple)
     {
@@ -273,22 +273,22 @@ public class TLRipples
     }
 
     /**
-     * ¶àÖØ²¨ÎÆ×´Ì¬¼àÌıÆ÷
+     * å¤šé‡æ³¢çº¹çŠ¶æ€ç›‘å¬å™¨
      */
     public interface IRipplesListener{
         /**
-         * ¶àÖØ²¨ÎÆ½áÊø
+         * å¤šé‡æ³¢çº¹ç»“æŸ
          */
         void onRipplesEnd() ;
     }
 
     /**
-     * µ¥¸ö²¨ÎÆ×´Ì¬¼àÌıÆ÷
+     * å•ä¸ªæ³¢çº¹çŠ¶æ€ç›‘å¬å™¨
      */
     public interface IRippleListener
     {
         /**
-         * µ¥¸ö²¨ÎÆ½áÊø
+         * å•ä¸ªæ³¢çº¹ç»“æŸ
          */
         void onRippleEnd(TLRipple ripple);
     }
@@ -299,7 +299,7 @@ public class TLRipples
         public void onRippleEnd(TLRipple ripple)
         {
             removeRipple(ripple);
-            //ËùÓĞµ¥¸ö²¨ÎÆ¶¯»­½áÊøÒâÎ¶×Å¶àÖØ²¨ÎÆ½áÊø
+            //æ‰€æœ‰å•ä¸ªæ³¢çº¹åŠ¨ç”»ç»“æŸæ„å‘³ç€å¤šé‡æ³¢çº¹ç»“æŸ
             if (ripplesNum == 0 && iRipplesListener != null)
             {
                 iRipplesListener.onRipplesEnd();

@@ -3,5 +3,6 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/tangliang/myapplication/RippleButton.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/tangliang/myapplication/TLRippleButton.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/example/tangliang/myapplication/TLRipples.java" charset="UTF-8" />
   </component>
 </project>
