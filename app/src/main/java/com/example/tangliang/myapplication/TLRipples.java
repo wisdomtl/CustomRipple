@@ -62,7 +62,26 @@ public class TLRipples
      */
     public void draw(Canvas canvas)
     {
-        //1.»æÖÆ¿ì²¨ÎÆ
+//        final int _ripplesNum = ripplesNum ;
+//        final TLRipple[] _ripples = ripples ;
+//        final TLRipple _curRipple = curRipple ;
+//
+//        //1.»æÖÆ¿ì²¨ÎÆ
+//        if (_ripplesNum > 0)
+//        {
+//            for (int i = 0; i < _ripplesNum; i++)
+//            {
+//                _ripples[i].draw(canvas);
+//            }
+//        }
+//
+//        //2.»æÖÆÂý²¨ÎÆ
+//        if (_curRipple != null)
+//        {
+//            _curRipple.draw(canvas);
+//        }
+
+         //1.»æÖÆ¿ì²¨ÎÆ
         if (ripplesNum > 0)
         {
             for (int i = 0; i < ripplesNum; i++)
@@ -76,7 +95,6 @@ public class TLRipples
         {
             curRipple.draw(canvas);
         }
-
     }
 
 

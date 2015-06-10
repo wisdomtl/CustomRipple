@@ -13,11 +13,11 @@
   
 2.用法
 
-TLRipple.java：绘制单个波纹 这个类被TLRipples使用
+TLRipple.java：绘制单个波纹 这个类被TLRipples使用。
 
-TLRipples.java：绘制多重波纹 这个类被控件使用
+TLRipples.java：绘制多重波纹 这个类被控件使用。
 
-TLRippleButton.java展现了如何使用TLRipples
+TLRippleButton.java：展现了如何使用TLRipples。
 
-ThemeManager.java提供了统一修改波纹效果的接口
+ThemeManager.java：提供了统一修改波纹效果的接口。
 
