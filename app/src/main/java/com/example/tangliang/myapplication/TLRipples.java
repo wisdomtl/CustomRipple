@@ -9,22 +9,24 @@ import android.view.View;
 /**
  * 多重波纹
  */
-public class Ripples
+public class TLRipples
 {
     /** 多重波纹集合 */
-    private CustomRipple2[] ripples;
+    private TLRipple[] ripples;
     /** 多重波纹最大个数 */
-    private static final int MAX_RIPPLES_NUM = 5;
-    /** 新产生单个波纹 */
-    private CustomRipple2 curRipple;
-    /** 多重波纹个数 */
+    private static final int MAX_RIPPLES_NUM = 10;
+    /** 当前多重波纹个数 */
     private int ripplesNum = 0;
+    /** 新产生单个波纹 */
+    private TLRipple curRipple;
     /** 多重波纹宿主 */
     private View host;
     /** 多重波纹宿主区域 */
     private Rect hostRect;
+    /**多重波纹监听器*/
+    private IRipplesListener iRipplesListener ;
 
-    public Ripples(View host)
+    public TLRipples(View host)
     {
         this.host = host;
     }
@@ -53,7 +55,6 @@ public class Ripples
         }
     }
 
-
     /**
      * 绘制多重波纹
      *
@@ -78,6 +79,7 @@ public class Ripples
 
     }
 
+
     /**
      * 设置波纹宿主控件区域
      *
@@ -95,6 +97,15 @@ public class Ripples
     }
 
     /**
+     * 设置多重波纹监听器
+     * @param iRipplesListener 多重波纹监听器
+     */
+    public void setiRipplesListener(IRipplesListener iRipplesListener)
+    {
+        this.iRipplesListener = iRipplesListener;
+    }
+
+    /**
      * 开启慢速波纹
      *
      * @param maxRippleRadius 波纹最大半径
@@ -107,9 +118,10 @@ public class Ripples
         {
             return;
         }
+
         if (curRipple == null)
         {
-            curRipple = new CustomRipple2(host, center, maxRippleRadius);
+            curRipple = new TLRipple(host, rippleListener, center, maxRippleRadius);
         }
 
         curRipple.startSlowRipple();
@@ -124,7 +136,7 @@ public class Ripples
         {
             if (ripples == null)
             {
-                ripples = new CustomRipple2[MAX_RIPPLES_NUM];
+                ripples = new TLRipple[MAX_RIPPLES_NUM];
             }
             //把慢波纹动画记录在列表中
             ripples[ripplesNum++] = curRipple;
@@ -202,4 +214,79 @@ public class Ripples
 
         return point;
     }
+
+    /**
+     * 删除单个波纹(当单个波纹动画结束 需从多重波纹集合中删除)
+     *
+     * @param ripple 单个波纹
+     */
+    private void removeRipple(TLRipple ripple)
+    {
+        final TLRipple[] tmpRipples = ripples;
+        final int tmpRipplesNum = ripplesNum;
+        final int rippleIndex = getRippleIndex(ripple);
+        if (rippleIndex >= 0)
+        {
+            System.arraycopy(tmpRipples, rippleIndex + 1, tmpRipples, rippleIndex, tmpRipplesNum - (rippleIndex + 1));
+            tmpRipples[ripplesNum - 1] = null;
+            ripplesNum--;
+            host.invalidate();
+        }
+    }
+
+    /**
+     * 获得单个波纹索引(遍历多重波纹集合)
+     *
+     * @param ripple 单个波纹
+     * @return 单个波纹索引
+     */
+    private int getRippleIndex(TLRipple ripple)
+    {
+        final TLRipple[] tmpRipples = ripples;
+        final int tmpRipplesNum = ripplesNum;
+        for (int i = 0; i < tmpRipplesNum; i++)
+        {
+            if (tmpRipples[i] == ripple)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 多重波纹状态监听器
+     */
+    public interface IRipplesListener{
+        /**
+         * 多重波纹结束
+         */
+        void onRipplesEnd() ;
+    }
+
+    /**
+     * 单个波纹状态监听器
+     */
+    public interface IRippleListener
+    {
+        /**
+         * 单个波纹结束
+         */
+        void onRippleEnd(TLRipple ripple);
+    }
+
+    private IRippleListener rippleListener = new IRippleListener()
+    {
+        @Override
+        public void onRippleEnd(TLRipple ripple)
+        {
+            removeRipple(ripple);
+            //所有单个波纹动画结束意味着多重波纹结束
+            if (ripplesNum == 0 && iRipplesListener != null)
+            {
+                iRipplesListener.onRipplesEnd();
+            }
+        }
+    };
+
 }

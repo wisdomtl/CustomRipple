@@ -22,7 +22,7 @@ public class ThemeManager
     /** 当前RippleEffect颜色 默认为亮灰色 */
     private int rippleColor = Color.parseColor("#5BFF0000");
     /** 波纹类型 */
-    private CustomRipple.Style rippleStyle = CustomRipple.Style.CIRCLE;
+    private TLRipple.Style rippleStyle = TLRipple.Style.CIRCLE;
     /** 快波纹半径加速器 默认为AccelerateDecelerateInterpolator */
     private TimeInterpolator fastRippleRadiusInterpolator = new SmoothInterpolator();
     /** 慢波纹半径加速器 默认为LinearInterpolator */
@@ -60,7 +60,7 @@ public class ThemeManager
      *
      * @return 波纹类型
      */
-    public CustomRipple.Style getRippleStyle()
+    public TLRipple.Style getRippleStyle()
     {
         return rippleStyle;
     }
@@ -70,7 +70,7 @@ public class ThemeManager
      *
      * @param rippleStyle 波纹类型
      */
-    public void setRippleStyle(CustomRipple.Style rippleStyle)
+    public void setRippleStyle(TLRipple.Style rippleStyle)
     {
         this.rippleStyle = rippleStyle;
     }
