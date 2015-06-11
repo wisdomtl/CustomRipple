@@ -6,12 +6,14 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
 
+import com.example.tangliang.ripple.TLRipples;
+
 import static android.util.Log.i;
 import static android.util.Log.v;
 import static android.util.Log.w;
 
 /**
- * 自定义波纹按钮(通过CustomRipple自定义)
+ * 自定义波纹按钮(通过TLRipple自定义)
  */
 public class TLRippleButton extends Button
 {

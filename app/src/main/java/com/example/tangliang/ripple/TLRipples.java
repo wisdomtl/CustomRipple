@@ -1,10 +1,12 @@
-package com.example.tangliang.myapplication;
+package com.example.tangliang.ripple;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.example.tangliang.ripple.TLRipple;
 
 /**
  * 多重波纹

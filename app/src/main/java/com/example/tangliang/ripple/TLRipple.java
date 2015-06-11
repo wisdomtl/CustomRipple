@@ -1,4 +1,4 @@
-package com.example.tangliang.myapplication;
+package com.example.tangliang.ripple;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.View;
+
+import com.example.tangliang.myapplication.ThemeManager;
 
 /**
  * 单个波纹
@@ -68,7 +70,7 @@ public class TLRipple
     /**
      * 开启快速波纹
      */
-    public void startFastRipple()
+    protected void startFastRipple()
     {
         //1.取消慢波纹
         cancelSlowRipple();
@@ -89,7 +91,7 @@ public class TLRipple
     /**
      * 开启慢速波纹
      */
-    public void startSlowRipple()
+    protected void startSlowRipple()
     {
         radiusAnimator = ObjectAnimator.ofFloat(this, "radius", 0, maxRadius);
         radiusAnimator.setAutoCancel(true);

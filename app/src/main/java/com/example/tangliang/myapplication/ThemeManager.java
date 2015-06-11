@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.animation.LinearInterpolator;
 
+import com.example.tangliang.ripple.TLRipple;
+
 /**
  * 主题管理器
  */
