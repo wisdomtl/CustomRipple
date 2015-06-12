@@ -73,14 +73,15 @@ public class TLRipple
     protected void startFastRipple()
     {
         radiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRadius);
+        radiusAnimator.setDuration(fastDuration) ;
         radiusAnimator.setAutoCancel(true);
         ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
+        alphaAnimator.setDuration((int)(fastDuration*0.5)) ; //透明度动画比半径动画提前结束 否则效果不好看
         alphaAnimator.setAutoCancel(true);
         AnimatorSet fastRippleAnimator = new AnimatorSet();
         fastRippleAnimator.playTogether(radiusAnimator, alphaAnimator);
-        fastRippleAnimator.setDuration(fastDuration);
         fastRippleAnimator.setInterpolator(fastInterpolator);
-        fastRippleAnimator.addListener(rippleListener); //youhua:加入多重波纹监听
+        fastRippleAnimator.addListener(rippleListener);
         fastRippleAnimator.start();
     }
 
