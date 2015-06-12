@@ -68,14 +68,10 @@ public class TLRipple
 
 
     /**
-     * 开启快速波纹
+     * 开启快速波纹 = 半径动画 + 透明度动画
      */
     protected void startFastRipple()
     {
-        //1.取消慢波纹
-        cancelSlowRipple();
-
-        //2.开启快波纹 = 半径动画+透明度动画
         radiusAnimator = ObjectAnimator.ofFloat(this, "radius", radius, maxRadius);
         radiusAnimator.setAutoCancel(true);
         ObjectAnimator alphaAnimator = ObjectAnimator.ofInt(this, "alpha", alpha, 0);
@@ -98,19 +94,6 @@ public class TLRipple
         radiusAnimator.setDuration(slowDuration);
         radiusAnimator.setInterpolator(slowInterpolator);
         radiusAnimator.start();
-    }
-
-    /**
-     * 取消慢波纹
-     */
-    private void cancelSlowRipple()
-    {
-        //1.取消慢波纹动画
-        if (radiusAnimator != null)
-        {
-            radiusAnimator.cancel();
-            radiusAnimator = null;
-        }
     }
 
     /**
