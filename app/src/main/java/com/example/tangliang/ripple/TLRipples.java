@@ -13,20 +13,20 @@ import com.example.tangliang.ripple.TLRipple;
  */
 public class TLRipples
 {
-    /** 多重波纹集合 */
-    private TLRipple[] ripples;
     /** 多重波纹最大个数 */
     private static final int MAX_RIPPLES_NUM = 10;
     /** 当前多重波纹个数 */
-    private int ripplesNum = 0;
+    private int ripplesNum;
+    /** 多重波纹集合 */
+    private TLRipple[] ripples;
     /** 新产生单个波纹 */
     private TLRipple curRipple;
     /** 多重波纹宿主 */
     private View host;
     /** 多重波纹宿主区域 */
     private Rect hostRect;
-    /**多重波纹监听器*/
-    private IRipplesListener iRipplesListener ;
+    /** 多重波纹监听器 */
+    private IRipplesListener iRipplesListener;
 
     public TLRipples(View host)
     {
@@ -64,39 +64,25 @@ public class TLRipples
      */
     public void draw(Canvas canvas)
     {
-//        final int _ripplesNum = ripplesNum ;
-//        final TLRipple[] _ripples = ripples ;
-//        final TLRipple _curRipple = curRipple ;
-//
-//        //1.绘制快波纹
-//        if (_ripplesNum > 0)
-//        {
-//            for (int i = 0; i < _ripplesNum; i++)
-//            {
-//                _ripples[i].draw(canvas);
-//            }
-//        }
-//
-//        //2.绘制慢波纹
-//        if (_curRipple != null)
-//        {
-//            _curRipple.draw(canvas);
-//        }
+        final int _ripplesNum = ripplesNum;
+        final TLRipple[] _ripples = ripples;
+        final TLRipple _curRipple = curRipple;
 
-         //1.绘制快波纹
-        if (ripplesNum > 0)
+        //1.绘制快波纹
+        if (_ripplesNum > 0)
         {
-            for (int i = 0; i < ripplesNum; i++)
+            for (int i = 0; i < _ripplesNum; i++)
             {
-                ripples[i].draw(canvas);
+                _ripples[i].draw(canvas);
             }
         }
 
         //2.绘制慢波纹
-        if (curRipple != null)
+        if (_curRipple != null)
         {
-            curRipple.draw(canvas);
+            _curRipple.draw(canvas);
         }
+
     }
 
 
@@ -118,6 +104,7 @@ public class TLRipples
 
     /**
      * 设置多重波纹监听器
+     *
      * @param iRipplesListener 多重波纹监听器
      */
     public void setiRipplesListener(IRipplesListener iRipplesListener)
@@ -277,11 +264,12 @@ public class TLRipples
     /**
      * 多重波纹状态监听器
      */
-    public interface IRipplesListener{
+    public interface IRipplesListener
+    {
         /**
          * 多重波纹结束
          */
-        void onRipplesEnd() ;
+        void onRipplesEnd();
     }
 
     /**

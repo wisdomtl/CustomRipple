@@ -21,3 +21,4 @@ TLRippleButton.java：展现了如何使用TLRipples。
 
 ThemeManager.java：提供了统一修改波纹效果的接口。
 
+MainActivity.java：展现了包括系统默认Ripple、系统定制Ripple、自定义Ripple的效果

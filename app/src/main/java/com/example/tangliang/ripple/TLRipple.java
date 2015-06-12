@@ -158,22 +158,8 @@ public class TLRipple
      */
     protected void draw(Canvas canvas)
     {
-//        final Point _center = center ;
-//        if (_center == null)
-//        {
-//            return;
-//        }
-//        //绘制单个波纹
-//        switch (style)
-//        {
-//            case RECTANGLE:
-//                break;
-//            case CIRCLE:
-//                canvas.drawCircle(_center.x, _center.y, radius, paint);
-//                break;
-//        }
-
-        if (center == null)
+        final Point _center = center;
+        if (_center == null)
         {
             return;
         }
@@ -183,7 +169,7 @@ public class TLRipple
             case RECTANGLE:
                 break;
             case CIRCLE:
-                canvas.drawCircle(center.x, center.y, radius, paint);
+                canvas.drawCircle(_center.x, _center.y, radius, paint);
                 break;
         }
     }

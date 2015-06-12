@@ -1,6 +1,5 @@
 package com.example.tangliang.myapplication;
 
-import android.animation.TimeInterpolator;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
