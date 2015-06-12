@@ -113,14 +113,14 @@ public class TLRipples
     }
 
     /**
-     * 开启慢速波纹
-     *
+     * 开启慢波纹
+     * @param center 波纹中心坐标
      * @param maxRippleRadius 波纹最大半径
      */
     private void startSlowRipple(Point center,
                                  float maxRippleRadius)
     {
-        //当用户疯狂点击 波纹数量超过上限时 不在绘制
+        //当用户疯狂点击 波纹数量超过上限时 不再新建波纹
         if (ripplesNum >= MAX_RIPPLES_NUM)
         {
             return;
@@ -135,7 +135,7 @@ public class TLRipples
     }
 
     /**
-     * 开启快速波纹
+     * 开启快波纹
      */
     private void startFastRipple()
     {
@@ -148,7 +148,8 @@ public class TLRipples
             //把慢波纹动画记录在列表中
             ripples[ripplesNum++] = curRipple;
             curRipple.startFastRipple();
-            curRipple = null; //当慢波纹变成快波纹后 慢波纹要销毁 以便再次点击时重新创建
+            //当慢波纹变成快波纹后 慢波纹要销毁 以便再次点击时重新创建
+            curRipple = null;
         }
     }
 
